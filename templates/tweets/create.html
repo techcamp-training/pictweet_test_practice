@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+{% comment %} novalidateをつけるとformで動いているエラーメッセージを非表示にでき、モデルで出たエラーメッセージを表示できる。 {% endcomment %}
+<form method="post" enctype="multipart/form-data" novalidate>
+  {% csrf_token %}
+  <div class="contents row">
+      <div class="container">
+          <h3>投稿する</h3>
+          {% include 'tweets/_form.html' %}
+          <input type="submit" value="SEND">
+      </div>
+  </div>
+</form>
+
+{% endblock content %}
