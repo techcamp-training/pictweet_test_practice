@@ -16,7 +16,6 @@ class BaseTweetModelTestCase(TestCase):
     def setUp(self):
         self.tweet = TweetFactory.build()
         self.tweet.user.save()
-        print(f"Debug: User saved with ID {self.tweet.user.id}")
 
 
     @classmethod
@@ -39,10 +38,10 @@ class TweetModelSuccessTestCase(BaseTweetModelTestCase):
     def test_tweet_with_text_only(self):
         """テキストのみを持つツイートが正しく生成され、保存されるかをテスト"""
         self.tweet.image = None
-        # デバッグ情報を追加
+        initial_count = Tweet.objects.count()
         self.tweet.save()
-        self.tweet.full_clean()  # バリデーションチェック
-        self.assertTrue(True)
+        new_count = Tweet.objects.count()
+        self.assertEqual(new_count, initial_count + 1)
 
 
 class TweetModelFailureTestCase(BaseTweetModelTestCase):
