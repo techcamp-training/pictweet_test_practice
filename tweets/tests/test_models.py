@@ -4,7 +4,6 @@ from django.test.utils import override_settings
 from django.core.exceptions import ValidationError
 from ..models import Tweet
 from .factories import TweetFactory
-from  users.tests.factories import UserFactory
 import os
 from django.conf import settings
 import shutil
