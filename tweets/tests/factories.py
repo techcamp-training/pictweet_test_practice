@@ -11,7 +11,7 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     email = factory.Faker('email')
     password = factory.PostGenerationMethodCall('set_password', 'techcamp2024')
-    nickname = factory.Faker('name')  # ユーザーモデルに nickname があると仮定
+    nickname = factory.Faker('name')
 
 class TweetFactory(factory.django.DjangoModelFactory):
     class Meta:

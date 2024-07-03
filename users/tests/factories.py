@@ -1,7 +1,6 @@
 # factories.py
 import factory
 from django.conf import settings
-from ..models import Tweet
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
