@@ -10,7 +10,7 @@
                 <li>
                     <form action="{% url 'Tweets:delete' tweet.id %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" class="delete-btn" value="削除"> <!-- CSS要修正 -->
+                    <input type="submit" class="delete-btn" value="削除">
                     </form>
                 </li>
                 <li>

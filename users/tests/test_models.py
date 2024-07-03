@@ -1,22 +1,26 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from ..models import CustomUser
+from .factories import UserFactory
 
 class UserModelTest(TestCase):
+    def setUp(self):
+        self.user = UserFactory.build()
+
+
     def test_nickname_cannot_be_blank(self):
-        user = CustomUser(nickname='', email='test123@test.com', password='techcamp2024')
+        self.user.nickname = ''
 
         with self.assertRaises(ValidationError) as cm:
-            user.full_clean()
+            self.user.full_clean()
 
         self.assertIn('nickname', cm.exception.message_dict)
         self.assertEqual(cm.exception.message_dict['nickname'], ["このフィールドは空ではいけません。"])
 
-    def test_password_cannot_be_blank(self):
-        user = CustomUser(nickname='abe', email='test123@test.com', password='')
+    def test_email_cannot_be_blank(self):
+        self.user.email = ''
 
         with self.assertRaises(ValidationError) as cm:
-            user.full_clean()
+            self.user.full_clean()
 
-        self.assertIn('password', cm.exception.message_dict)
-        self.assertEqual(cm.exception.message_dict['password'], ["このフィールドは空ではいけません。"])
+        self.assertIn('email', cm.exception.message_dict)
+        self.assertEqual(cm.exception.message_dict['email'], ["このフィールドは空ではいけません。"])
