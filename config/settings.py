@@ -75,9 +75,9 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'pictweet_test_practice',
         'USER': 'postgres',
-        'PASSWORD': 'techcamp_katsuno3', #ご自身の設定したパスワードを設定しましょう
+        'PASSWORD': 'admin', #ご自身の設定したパスワードを設定しましょう
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     },
 }
 
