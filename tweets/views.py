@@ -22,9 +22,7 @@ class CreateView(CreateView):
     def form_valid(self, form):
         tweet = form.save(commit=False)
         tweet.user = self.request.user
-        tweet.save()
         return super().form_valid(form)
-
 
 
 class DeleteView(DeleteView):
@@ -44,7 +42,6 @@ class DetailView(FormMixin,DetailView):
     model = Tweet
     template_name = 'tweets/detail.html'
     form_class = CommentForm
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         comments = Comment.objects.filter(tweet=self.object).order_by('-created_at')

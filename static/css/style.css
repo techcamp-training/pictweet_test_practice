@@ -1073,3 +1073,16 @@ form input[type="submit"].delete-btn{
 form input[type="submit"]:hover.delete-btn{
   background-color: #84d3ef;
 }
+
+
+
+form input[type="submit"].logout-btn {
+  color: #666;
+  background: transparent !important;
+  margin: 0;
+  font-size: 16px;
+}
+
+form input[type="submit"].logout-btn:hover {
+  color: #57C3E9;
+}

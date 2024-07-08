@@ -18,8 +18,5 @@ class Tweet(models.Model):
 
 
   def clean(self):
-        errors = {}
         if len(self.text) > 280:
-            errors['text'] = 'テキストは280文字以内で入力してください。'
-        if errors:
-            raise ValidationError(errors)
+            raise ValidationError({'text':'テキストは280文字以内で入力してください。'})

@@ -1,6 +1,5 @@
 from django.test import TestCase
 from django.test.utils import override_settings
-# from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.exceptions import ValidationError
 from ..models import Tweet
 from .factories import TweetFactory
@@ -64,18 +63,3 @@ class TweetModelFailureTestCase(BaseTweetModelTestCase):
             self.tweet.full_clean()
         self.assertIn('user', cm.exception.message_dict)
         self.assertEqual(cm.exception.message_dict['user'], ["このフィールドには NULL を指定できません。"])
-
-
-    #画像はなくても投稿できるので異常系のテストは不要かも
-    # def test_tweet_with_invalid_image_format(self):
-    #     """不正な画像形式のツイートが失敗することをテスト"""
-    #     invalid_image_path = os.path.join(settings.BASE_DIR, 'tweets/tests/media/invalid.txt')
-    #     with open(invalid_image_path, 'rb') as img:
-    #         tweet = TweetFactory.build(text="いい写真です",
-    #                                    image=SimpleUploadedFile(name='invalid.txt', content=img.read(),
-    #                                                             content_type='text/plain'))
-    #     with self.assertRaises(ValidationError)as cm:
-    #         self.tweet.full_clean()
-
-    #     self.assertIn('image', cm.exception.message_dict)
-    #     self.assertEqual(cm.exception.message_dict['image'], ["有効な画像ファイルをアップロードしてください。"])
