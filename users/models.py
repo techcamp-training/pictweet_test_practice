@@ -15,7 +15,7 @@ class CustomUserManager(BaseUserManager):
 # カスタム ユーザーモデル
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True, null=False)
-    nickname = models.CharField(max_length=50, null=False)
+    nickname = models.CharField(max_length=10, null=False)
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
