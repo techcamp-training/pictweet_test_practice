@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .factories import UserFactory
+from ..factories.users import UserFactory
 
 
 class BaseUserModelTest(TestCase):
@@ -38,13 +38,13 @@ class UserModelFailureTestCase(BaseUserModelTest):
 
     def test_nickname_length_exceeds_limit(self):
         """nicknameが50文字より大きい場合は登録できない"""
-        self.user.nickname = 'a' * 51
+        self.user.nickname = 'a' * 11
 
         with self.assertRaises(ValidationError) as cm:
             self.user.full_clean()
 
         self.assertIn('nickname', cm.exception.message_dict)
-        self.assertEqual(cm.exception.message_dict['nickname'], ["この値は 50 文字以下でなければなりません( 51 文字になっています)。"])
+        self.assertEqual(cm.exception.message_dict['nickname'], ["この値は 10 文字以下でなければなりません( 11 文字になっています)。"])
 
     def test_unique_email_constraint(self):
         """重複したemailが存在する場合は登録できない"""

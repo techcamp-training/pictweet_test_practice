@@ -1,7 +1,7 @@
 import factory
 from comments.models import Comment
-from users.tests.factories import UserFactory
-from tweets.tests.factories  import TweetFactory
+from .users import UserFactory
+from .tweets  import TweetFactory
 
 class CommentFactory(factory.django.DjangoModelFactory):
     class Meta:

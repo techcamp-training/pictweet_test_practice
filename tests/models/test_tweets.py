@@ -1,8 +1,8 @@
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.core.exceptions import ValidationError
-from ..models import Tweet
-from .factories import TweetFactory
+from tweets.models import Tweet
+from ..factories.tweets import TweetFactory
 import os
 from django.conf import settings
 import shutil

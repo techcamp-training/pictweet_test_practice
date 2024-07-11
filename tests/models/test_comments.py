@@ -1,6 +1,6 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
-from .factories import CommentFactory
+from ..factories.comments import CommentFactory
 
 class BaseCommentModelTestCase(TestCase):
     def setUp(self):
