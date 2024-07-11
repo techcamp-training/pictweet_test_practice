@@ -73,11 +73,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'pictweet_utf8',
+        'NAME': 'pictweet',
         'USER': 'postgres',
-        'PASSWORD': 'techcamp_katsuno3', #ご自身の設定したパスワードを設定しましょう
+        'PASSWORD': 'admin', #ご自身の設定したパスワードを設定しましょう
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     },
 }
 
