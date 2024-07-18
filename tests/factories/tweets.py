@@ -3,13 +3,12 @@ import factory
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.conf import settings
 from tweets.models import Tweet
-from .users import UserFactory
 import os
+
 class TweetFactory(factory.django.DjangoModelFactory):
     class Meta:
         model = Tweet
 
-    user = factory.SubFactory(UserFactory)
     text = factory.Faker('sentence')
 
     @factory.lazy_attribute

@@ -1,17 +1,21 @@
 from django.test import TestCase
 from django.core.exceptions import ValidationError
+from ..factories.users import UserFactory
+from ..factories.tweets import TweetFactory
 from ..factories.comments import CommentFactory
-
 class BaseCommentModelTestCase(TestCase):
     def setUp(self):
-        self.comment = CommentFactory.create()
+        self.user = UserFactory.create()
+        self.tweet = TweetFactory.create(user=self.user)
+        self.comment = CommentFactory.build(user=self.user, tweet=self.tweet)
 
 class CommentModelSuccessTestCase(BaseCommentModelTestCase):
     """正常系のテストケース"""
     def test_tweet_creation(self):
         """コメントを保存できる"""
         self.comment.full_clean()
-        self.assertTrue(True)
+        self.comment.save()
+        self.assertIsNotNone(self.comment.id)  # 保存されたことを確認
 
 class CommentModelFailureTestCase(BaseCommentModelTestCase):
     """異常系のテストケース"""

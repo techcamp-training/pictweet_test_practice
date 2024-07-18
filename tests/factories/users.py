@@ -7,5 +7,5 @@ class UserFactory(factory.django.DjangoModelFactory):
         model = settings.AUTH_USER_MODEL
 
     email = factory.Faker('email')
-    nickname = factory.Faker('first_name')
+    nickname = factory.Faker('name', locale='ja_JP')
     password = factory.PostGenerationMethodCall('set_password', 'techcamp2024')

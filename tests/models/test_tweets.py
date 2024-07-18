@@ -1,26 +1,12 @@
 from django.test import TestCase
-from django.test.utils import override_settings
 from django.core.exceptions import ValidationError
-from tweets.models import Tweet
 from ..factories.tweets import TweetFactory
-import os
-from django.conf import settings
-import shutil
+from ..factories.users import UserFactory
 
-MEDIA_ROOT_TEST = os.path.join(settings.BASE_DIR, 'tweets/tests/media/images')
-
-@override_settings(MEDIA_ROOT=MEDIA_ROOT_TEST)
 class BaseTweetModelTestCase(TestCase):
     def setUp(self):
-        self.tweet = TweetFactory.create()
-
-    #ここもいる？
-    @classmethod
-    def tearDownClass(cls):
-        """全体のテストが終わった後に作成されたメディアファイルを削除する"""
-        super().tearDownClass()
-        if os.path.exists(MEDIA_ROOT_TEST):
-            shutil.rmtree(MEDIA_ROOT_TEST)
+        self.user = UserFactory.create()
+        self.tweet = TweetFactory.build(user=self.user)
 
 class TweetModelSuccessTestCase(BaseTweetModelTestCase):
     """正常系のテストケース"""
@@ -28,14 +14,15 @@ class TweetModelSuccessTestCase(BaseTweetModelTestCase):
     def test_tweet_creation(self):
         """画像とテキストを投稿できる"""
         self.tweet.full_clean()
-        self.assertTrue(True)
+        self.tweet.save()
+        self.assertIsNotNone(self.tweet.id)  # 保存されたことを確認
 
     def test_tweet_with_text_only(self):
         """テキストのみで投稿できる"""
         self.tweet.image = None
         self.tweet.full_clean()
-        self.assertTrue(True)
-
+        self.tweet.save()
+        self.assertIsNotNone(self.tweet.id)  # 保存されたことを確認
 
 class TweetModelFailureTestCase(BaseTweetModelTestCase):
     """異常系のテストケース"""
