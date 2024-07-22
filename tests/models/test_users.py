@@ -4,15 +4,14 @@ from ..factories.users import UserFactory
 
 
 class BaseUserModelTest(TestCase):
-    def setUp(self):
-        self.user = UserFactory.create()
-
+    @classmethod
+    def setUpTestData(cls):
+        cls.user = UserFactory.build()
 class UserModelSuccessTestCase(BaseUserModelTest):
     """正常系のテストケース"""
     def test_tweet_creation(self):
         """ユーザーの登録ができる"""
         self.user.full_clean()
-        self.assertTrue(True)
 
 class UserModelFailureTestCase(BaseUserModelTest):
     """異常系のテストケース"""
@@ -36,8 +35,18 @@ class UserModelFailureTestCase(BaseUserModelTest):
         self.assertIn('email', cm.exception.message_dict)
         self.assertEqual(cm.exception.message_dict['email'], ["このフィールドは空ではいけません。"])
 
+    def test_password_cannot_be_blank(self):
+        """passwordは空では登録できない"""
+        self.user.password = ''
+
+        with self.assertRaises(ValidationError) as cm:
+            self.user.full_clean()
+
+        self.assertIn('password', cm.exception.message_dict)
+        self.assertEqual(cm.exception.message_dict['password'], ["このフィールドは空ではいけません。"])
+
     def test_nickname_length_exceeds_limit(self):
-        """nicknameが50文字より大きい場合は登録できない"""
+        """nicknameが10文字より大きい場合は登録できない"""
         self.user.nickname = 'a' * 11
 
         with self.assertRaises(ValidationError) as cm:
@@ -48,6 +57,7 @@ class UserModelFailureTestCase(BaseUserModelTest):
 
     def test_unique_email_constraint(self):
         """重複したemailが存在する場合は登録できない"""
+        self.user.save()
         another_user = UserFactory.build(email=self.user.email)
         with self.assertRaises(ValidationError) as cm:
             another_user.full_clean()
@@ -64,22 +74,3 @@ class UserModelFailureTestCase(BaseUserModelTest):
 
         self.assertIn('email', cm.exception.message_dict)
         self.assertEqual(cm.exception.message_dict['email'], ["有効なメールアドレスを入力してください。"])
-
-
-    # users/models.pyにパスワードに対してのフィールドがないのでテストしなくてもよい？
-    # def test_password_cannot_be_blank(self):
-    #     self.user.password = ''
-
-    #     with self.assertRaises(ValidationError) as cm:
-    #         self.user.full_clean()
-
-    #     self.assertIn('password', cm.exception.message_dict)
-    #     self.assertEqual(cm.exception.message_dict['password'], ["このフィールドは空ではいけません。"])
-
-
-    # def test_password_length_too_long(self):
-    #     self.user.password = 'a' * 129
-    #     with self.assertRaises(ValidationError) as cm:
-    #         self.user.full_clean()
-    #     self.assertIn('password', cm.exception.message_dict)
-    #     self.assertEqual(cm.exception.message_dict['password'], ["この値は 128 文字以下でなければなりません( 129 文字になっています)。"])

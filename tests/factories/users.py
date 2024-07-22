@@ -1,11 +1,14 @@
 import factory
-from django.conf import settings
+import faker
+from django.contrib.auth import get_user_model
 
 
 class UserFactory(factory.django.DjangoModelFactory):
     class Meta:
-        model = settings.AUTH_USER_MODEL
+        model = get_user_model()
 
     email = factory.Faker('email')
-    nickname = factory.Faker('name', locale='ja_JP')
-    password = factory.PostGenerationMethodCall('set_password', 'techcamp2024')
+    nickname = factory.LazyAttribute(lambda obj: faker.Faker().first_name()[:10])
+    password = factory.Faker('password')
+
+    # password = factory.PostGenerationMethodCall('set_password', 'techcamp2024')
